@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if listing.user != request.user%}
+
+
+    <h2>Bidding for: {{listing.title}}, Seller: {{listing.user}}</h2>
+
+    {% if submitted %}
+        Your Bid was Submitted Successfully
+        <hr>
+        <a href="{% url 'listing' listing.id%}">Back to Listing</a>
+
+    {% else %}
+
+
+        <h3>Current Value is: ${{listing.current_bid_value}}</h3>
+        <a href="{% url 'listing' listing.id%}">Back to Listing</a>
+
+        {% if error %}
+        <h6>Error! Bid must be greater than ${{listing.current_bid_value}}</h6>
+        {% endif %}
+
+        <form action="" method=POST >
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit Bid">
+        </form>
+
+    {% endif %}
+
+{% else %}
+
+<h2>Cannot make a bid on an item that you are selling</h2>
+<a href="{% url 'listing' listing.id%}">Back to Listing</a>
+
+{% endif %}
+
+{% endblock %}

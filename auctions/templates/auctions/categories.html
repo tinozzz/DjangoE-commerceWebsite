@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <style>
+        .home-container{
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+        }
+    </style>
+
+    <div class="home-container">
+
+        <div>
+            <h3>Browse Categories</h3>
+            <a href="{% url 'categories'%}">All</a>
+            <br>
+            {% for category in categories %}
+            <a href="{% url 'categories'%}?q={{category}}">{{category.name}}</a>
+            <br>
+            {% endfor %}
+        </div>
+
+        <div>
+            {% include "auctions/listing_component.html" %}
+        </div>
+
+    </div>
+    
+    
+{% endblock %}

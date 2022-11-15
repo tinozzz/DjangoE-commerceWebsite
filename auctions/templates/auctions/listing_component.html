@@ -1,0 +1,41 @@
+<h2>Active Listings</h2>
+    <ul>
+        {% for item in listings %}
+            {% if request.user == item.user %}
+            <a href="{% url 'update-listing' item.id %}">Edit {{item.title}}</a>
+            {% endif %}
+            <li><a href="{% url 'listing' item.id %}">{{item.title}}</a>, Description: {{item.description}}, Price: ${{item.current_bid_value}}, Created by: {{item.user}}</li>
+            {% if item.image %}
+                {% load static %}
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+            {% endif %}
+            
+
+            {% if request.user.is_authenticated and request.user != item.user %}
+
+                {% if item.id in watchlist %}
+
+                <form action="" method=POST>
+                    {% csrf_token %}
+                    <input type="hidden" value="{{item.id}}" name="listing">
+                    <input type="submit" name="delete" value="Remove from Watchlist">
+                </form>
+
+                {% else %}
+                <form action="" method=POST>
+                    {% csrf_token %}
+                    <input type="hidden" value="{{item.id}}" name="listing">
+                    <input type="submit" name="add" value="Add to Watchlist">
+                </form>
+
+                {% endif %}
+
+            {% endif %}
+
+            <hr>
+            {% empty %}
+            No Items
+        {% endfor %}
+    </ul>
+
+ 

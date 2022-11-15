@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Add Listing</h2>
+
+{% if submitted %}
+    Your Listing was Submitted Successfully
+{% else %}
+
+    <form action="" method=POST enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+    
+{% endif%}
+
+{% endblock %}

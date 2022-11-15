@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>Active Listings</h2>
+    <ul>
+        {% for item in watchlist %}
+            <li><a href="{% url 'listing' item.id %}">{{item.listing.title}}</a>, Description: {{item.listing.description}},
+                 Price: ${{item.listing.current_bid_value}}, Created by: {{item.listing.user}}</li>
+            {% if item.listing.image %}
+                {% load static %}
+                <img src="{{ item.listing.image.url }}" alt="{{ item.listing.title }}">
+            {% endif %}
+
+                <form action="" method=POST>
+                    {% csrf_token %}
+                    <input type="hidden" value="{{item.listing.id}}" name="listing">
+                    <input type="submit" name="delete" value="Remove from Watchlist">
+                </form>
+
+            <hr>
+            {% empty %}
+            No Watchlist listings
+        {% endfor %}
+    </ul>
+
+{% endblock %}
